@@ -1,0 +1,66 @@
+<section>
+    <div class="container">
+        <table class="table mt-4">
+            <thead>
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Table</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>  
+                {{#each products}}
+                <tr> 
+                    <td><img src="/product-images/{{this.product._id}}.jpg" style="width: 60px; height: 60px;" alt=""></td>
+                    <td>{{this.product.Name}}</td>
+                    <td>Rs.{{this.product.Price}}</td>
+                    <td>
+                        <button class="cart-item-count mr-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+                        <span id="{{this.product._id}}">{{this.quantity}}</span>
+                        <button class="cart-item-count ml-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
+                    </td>
+                    <td>
+                        <a href="" class="btn btn-danger">Remove</a>
+                    </td>   
+                </tr> 
+                {{/each}}  
+            </tbody>
+        </table>
+    {{!-- <hr> --}}
+    <div class="row justify-content-end " style="padding-right : 5rem;">
+        <div class="col-auto">
+            <h5 >Total : Rs. 100000</h5>
+            <a href="/place-order" class="btn btn-success mt-3" style="width:100%"><b>Place Order</b></a>
+        </div>
+        
+    </div>
+    </div>
+</section>
+
+<script>
+    function changeQuantity(cartId,proId,count){
+        let quantity = parseInt(document.getElementById(proId).innerHTML)
+        count = parseInt(count)
+        fetch('/change-product-quantity',{
+           headers:{'Content-type':'application/json'},
+            method:'post',
+            body:JSON.stringify({
+                cart:cartId,
+                product:proId,
+                count:count,
+                quantity:quantity
+            })
+        }).then(response=>response.json())
+        .then(response=>{
+            console.log( 'response is now  ',response);
+           if(response.removeProduct){
+            alert("Product removed from Cart")
+            location.reload()
+           }
+           else{
+                document.getElementById(proId).innerHTML = quantity+count
+           }
+        })
+            
+    }
+</script>

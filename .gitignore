@@ -1,0 +1,25 @@
+# Node.js
+/node_modules
+
+# MongoDB
+/data/db
+
+# Bootstrap
+/public/assets/css/bootstrap.min.css
+/public/assets/js/bootstrap.min.js
+
+# Express (if using a specific IDE or editor)
+.vscode
+.idea
+
+# Logs
+/logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+
+# Other system files
+.DS_Store
+Thumbs.db
